@@ -11,20 +11,17 @@ def reverseParentheses(s):
                 inner_open = item
             elif string_array[item] == ")":
                 inner_close = item
-                string_array = switchInner(string_array, inner_open, inner_close)
+                string_array[inner_open:inner_close + 1] = switchInner(string_array[inner_open:inner_close + 1])
+                string_array.pop(inner_close)
+                string_array.pop(inner_open)
                 break
 
     return ''.join([str(char) for char in string_array])
 
-def switchInner(s, io, ic):
-    s.pop(io)
-    s.pop(ic-1)
-    # print s[io:ic-1]
-    # print s[ic-2:io-1: -1]
-    s[io:ic-1] = s[ic-2:io-1: -1]
 
-    return s
+def switchInner(substring):
 
+    return substring[::-1]
 
 if __name__ == '__main__':
-    print reverseParentheses("a(bc(de)f)g")
+    print reverseParentheses("(abcde)")
