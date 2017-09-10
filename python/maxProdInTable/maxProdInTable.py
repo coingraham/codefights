@@ -143,12 +143,80 @@ def maxProdInTable(table):
 #
 #     return total_diag / table[n][m]
 
+def maxProdInTable3(t):
+    import operator
+    M = 10**9+7
+
+    a = 0
+    r,c = len(t), len(t[0])
+    for i in range(r):
+        for j in range(c):
+            a = max(a,t[i][j])
+
+
+    def check(i,j,k,d):
+        if d == 0:
+            d = [(1,0),(-1,0),(0,1),(0,-1)]
+        else:
+            d = [(-1,-1),(-1,1),(1,-1),(1,1)]
+        output = []
+        for a,b in d:
+            aa,bb = i+k*a,j+k*b
+            if 0 <= aa < r and 0 <= bb < c:
+                output.append((aa,bb))
+            else:
+                return []
+        return output
+
+    for i in range(1,r-1):
+        for j in range(1,c-1):
+            k = 1
+            temp = t[i][j]
+            if temp > 0:
+                while True:
+                    tt = check(i,j,k,0)
+                    if tt:
+                        temp = reduce(operator.mul, [t[ii][jj] for ii,jj in tt], temp)
+                        if temp == 0:
+                            break
+                    else:
+                        break
+                    a = max(a,temp)
+                    k += 1
+                k = 1
+                temp = t[i][j]
+                while True:
+                    tt = check(i,j,k,1)
+                    if tt:
+                        temp = reduce(operator.mul, [t[ii][jj] for ii,jj in tt], temp)
+                        if temp == 0:
+                            break
+                    else:
+                        break
+                    a = max(a,temp)
+                    k += 1
+    return a%M
+
+def maxProdInTable4(table):
+    r=0
+    for i in range(len(table)):
+        for j in range(len(table)):
+            prod1=prod2=table[i][j]
+            r=max(prod1,r)
+            for k in range(1,min(1+min(i,j),len(table)-max(i,j))):
+                prod1*=table[i+k][j]*table[i-k][j]*table[i][j-k]*table[i][j+k]
+                prod2*=table[i+k][j+k]*table[i-k][j+k]*table[i+k][j-k]*table[i-k][j-k]
+                r=max(r,prod1,prod2)
+                if prod1 == 0 and prod2 == 0:
+                    break
+    return r%1000000007
 
 if __name__ == '__main__':
-    test = [[1 for x in range(75)] for y in range(75)]
-    print maxProdInTable(test)
+    test = [[1 for x in range(400)] for y in range(400)]
+    print maxProdInTable4(test)
 
     print("--- All done %s seconds ---" % (time.time() - start_time))
+
     # print maxProdInTable([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     #                       [1, 1, 3, 1, 1, 1, 1, 1, 1, 1],
     #                       [1, 2, 3, 2, 1, 1, 1, 1, 1, 1],
@@ -166,6 +234,7 @@ if __name__ == '__main__':
     #                       [0,0,3,0,0],
     #                       [0,3,0,1,0],
     #                       [3,0,0,0,0]])
+
 
 
 
