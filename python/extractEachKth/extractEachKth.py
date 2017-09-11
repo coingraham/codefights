@@ -34,5 +34,14 @@ def extractEachKth(inputArray, k):
 
     return inputArray
 
+
+def extractEachKth2(x, k):
+    # Top answer.  Very interesting.  Took me some time to understand.
+    # slice the list [start:end:step].  Start at k-1 (offset for index) and remove every kth step.  So simple.
+
+    del x[k-1::k]
+    return x
+
+
 if __name__ == '__main__':
     print extractEachKth([1, 1, 1, 1, 1], 1)
