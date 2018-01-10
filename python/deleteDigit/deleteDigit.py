@@ -21,7 +21,26 @@ Guaranteed constraints:
 
 
 def deleteDigit(n):
-    pass
+    highest = 0
+
+    number_list = [s for s in str(n)]
+
+    for x in range(0, len(number_list)):
+
+        # Copy the original list
+        local_list = number_list[:]
+
+        # Delete the chosen digit
+        del local_list[x]
+
+        # Convert the list to a number
+        new_number = int(''.join(local_list))
+
+        # Compare and update
+        if new_number > highest:
+            highest = new_number
+
+    return highest
 
 
 if __name__ == '__main__':
