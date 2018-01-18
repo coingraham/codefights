@@ -21,8 +21,20 @@ Guaranteed constraints:
 [output] array.string
 """
 
+
 def fileNaming(names):
-    pass
+    new_names = []
+
+    for name in names:
+        if name not in new_names:
+            new_names.append(name)
+        else:
+            for x in range(1, 16):
+                if "{}({})".format(name, x) not in new_names:
+                    new_names.append("{}({})".format(name, x))
+                    break
+
+    return new_names
 
 
 if __name__ == '__main__':
